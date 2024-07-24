@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
-
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from pokedex.forms import PokemonForm
 from .models import Pokemon
 from django.shortcuts import redirect, render
@@ -31,3 +32,7 @@ def add_pokemon(request):
     
     
     return render(request, 'add_pokemon.html', {'form': form })   
+
+
+class CustomLoginView(LoginView):
+    template_name ='login.html'
