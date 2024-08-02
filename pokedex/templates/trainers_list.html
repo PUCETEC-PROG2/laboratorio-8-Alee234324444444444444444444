@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Lista de Entrenadores{% endblock title %}
+{% block content %}
+    <p><strong><big>En esta seccion puedes visualizar los entrenadores.</big></strong></p>
+    <a href={% url "pokedex:add_trainer" %}><strong><big> Crear Entrenador</big></strong> </a>
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for trainer in trainers %}
+                <div class="col">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if trainer.picture %}
+                                    <img src="{{ trainer.picture.url }}" class="img-fluid rounded-start" alt="{{ trainer.first_name }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ trainer.first_name }} {{ trainer.last_name }}</h5>
+                                    <p class="card-text"><strong>Edad:</strong> {{ trainer.birth_date|date:"Y" }}</p>
+                                    <p class="card-text"><strong>Nivel:</strong> {{ trainer.level }}</p>
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'pokedex:trainer' trainer.id %}" class="btn btn-primary">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a href="{% url 'pokedex:edit_trainer' trainer.id %}" class="btn btn-primary">
+                                            <i class="fa-solid fa-pencil"></i> 
+                                        </a>
+                                        <a href="{% url 'pokedex:delete_trainer' trainer.id %}" class="btn btn-danger">
+                                            <i class="fa-solid fa-trash"></i> 
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
